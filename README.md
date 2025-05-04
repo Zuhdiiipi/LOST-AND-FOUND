@@ -13,23 +13,23 @@
 
 ---
 
-## 🎯 Role dan Fitur
+## Role dan Fitur
 
-### 🧑 User
+### User
 - Registrasi & Login
-- Melapor barang hilang & ditemukan (melalui form, diverifikasi oleh staff sebelum ditampilkan)
-- Melihat daftar barang hilang & ditemukan (informasi terbatas)
-- Mengklaim barang ditemukan (form klaim diverifikasi staff)
+- Melapor barang hilang & ditemukan 
+- Melihat daftar barang hilang & ditemukan 
+- Mengklaim barang ditemukan 
 - Melihat riwayat laporan pribadi
 
-### 🧑‍💼 Staff
+### Staff
 - Login
 - Melihat semua laporan barang hilang & ditemukan
 - Verifikasi laporan barang (hilang/ditemukan)
 - Verifikasi klaim barang
-- Mengelola status barang (tersedia, sedang diklaim, selesai)
+- Mengelola status barang 
 
-### 🛠️ Admin
+### Admin
 - Login
 - Mengelola akun Staff
 - Mengelola akun User
@@ -38,7 +38,7 @@
 
 ---
 
-## 🗃️ Tabel Database
+## Tabel Database
 
 ### Tabel `users`
 | Field         | Tipe Data   | Keterangan          |
@@ -56,13 +56,13 @@
 |---------------|-------------|--------------------------------|
 | id            | BIGINT      | Primary Key                    |
 | user_id       | BIGINT      | FK ke `users.id`               |
-| type          | ENUM        | 'lost', 'found'                |
+| type          | ENUM        | 'hilang', 'ditemukan'                |
 | item_name     | VARCHAR     | Nama barang                    |
 | description   | TEXT        | Deskripsi detail               |
 | location      | VARCHAR     | Lokasi ditemukan/hilang        |
 | date          | DATE        | Tanggal kejadian               |
 | image         | VARCHAR     | Path gambar (opsional)         |
-| status        | ENUM        | 'pending', 'approved', 'rejected' |
+| status        | ENUM        | 'diproses', 'diterima', 'ditolak' |
 | is_claimed    | BOOLEAN     | TRUE jika sudah diklaim        |
 | timestamps    | TIMESTAMP   | created_at, updated_at         |
 
@@ -73,20 +73,15 @@
 | user_id       | BIGINT      | FK ke `users.id`                   |
 | report_id     | BIGINT      | FK ke `reports.id`                 |
 | justification | TEXT        | Alasan/keterangan mengklaim       |
-| status        | ENUM        | 'pending', 'approved', 'rejected' |
+| status        | ENUM        | 'diproses', 'diterima', 'ditolak' |
 | timestamps    | TIMESTAMP   | created_at, updated_at             |
 
 ---
 
 ## 🔗 Jenis Relasi dan Tabel yang Berelasi
 
-- `users` memiliki banyak `reports`  
-- `users` memiliki banyak `claims`  
-- `reports` dimiliki oleh satu `user`  
-- `reports` bisa memiliki satu `claim`  
-- `claims` dimiliki oleh satu `user`  
-- `claims` terkait ke satu `report`
+- `users` ↔ `reports`: One to Many (Satu pengguna dapat melaporkan banyak barang hilang atau ditemukan)  
+- `reports` ↔ `claims`: One to Many (Satu laporan barang ditemukan dapat diklaim oleh beberapa pengguna)  
+- `users` ↔ `claims`: One to Many (Satu pengguna dapat mengklaim lebih dari satu barang ditemukan)
 
----
-
-Silakan beri tahu jika ingin ditambahkan diagram relasi database (ERD) atau demo penggunaan halaman-halamannya.
+--- 
