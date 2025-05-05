@@ -44,10 +44,10 @@
 | Field         | Tipe Data   | Keterangan          |
 |---------------|-------------|---------------------|
 | id            | BIGINT      | Primary Key         |
-| name          | VARCHAR     | Nama lengkap        |
-| email         | VARCHAR     | Email unik          |
-| password      | VARCHAR     | Disimpan dalam hash |
-| phone_number  | VARCHAR     | Nomor HP kontak     |
+| name          | STRING     | Nama lengkap        |
+| email         | STRING     | Email unik          |
+| password      | STRING     | Password |
+| phone_number  | STRING     | Nomor HP kontak     |
 | role          | ENUM        | user, staff, admin  |
 | timestamps    | TIMESTAMP   | created_at, updated_at |
 
@@ -57,13 +57,12 @@
 | id            | BIGINT      | Primary Key                    |
 | user_id       | BIGINT      | FK ke `users.id`               |
 | type          | ENUM        | 'hilang', 'ditemukan'                |
-| item_name     | VARCHAR     | Nama barang                    |
+| item_name     | STRING     | Nama barang                    |
 | description   | TEXT        | Deskripsi detail               |
-| location      | VARCHAR     | Lokasi ditemukan/hilang        |
+| location      | STRING     | Lokasi ditemukan/hilang        |
 | date          | DATE        | Tanggal kejadian               |
-| image         | VARCHAR     | Path gambar (opsional)         |
+| image         | STRING     | Path gambar (opsional)         |
 | status        | ENUM        | 'diproses', 'diterima', 'ditolak' |
-| is_claimed    | BOOLEAN     | TRUE jika sudah diklaim        |
 | timestamps    | TIMESTAMP   | created_at, updated_at         |
 
 ### Tabel `claims`
