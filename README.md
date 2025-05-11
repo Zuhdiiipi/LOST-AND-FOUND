@@ -20,7 +20,7 @@
 - Melapor barang hilang & ditemukan 
 - Melihat daftar barang hilang & ditemukan 
 - Mengklaim barang ditemukan 
-- Melihat riwayat laporan pribadi
+- Melihat riwayat laporan pribadi(opsional)
 
 ### Staff
 - Login
@@ -44,11 +44,30 @@
 | Field         | Tipe Data   | Keterangan          |
 |---------------|-------------|---------------------|
 | id            | BIGINT      | Primary Key         |
-| name          | STRING     | Nama lengkap        |
+| nama          | STRING     | Nama lengkap        |
 | email         | STRING     | Email unik          |
 | password      | STRING     | Password |
-| phone_number  | STRING     | Nomor HP kontak     |
 | role          | ENUM        | user, staff, admin  |
+| timestamps    | TIMESTAMP   | created_at, updated_at |
+
+### Tabel `profiles`
+| Field         | Tipe Data   | Keterangan          |
+|---------------|-------------|---------------------|
+| id            | BIGINT      | Primary Key         |
+| user_id          | BIGINT     | FK ke `users.id`        |
+| alamat         | TEXT     |  Alamat Lengkap          |
+| no_telepon      | STRING     | Nomor Telepon |
+| timestamps    | TIMESTAMP   | created_at, updated_at |
+
+### Tabel `items`
+| Field         | Tipe Data   | Keterangan          |
+|---------------|-------------|---------------------|
+| id            | BIGINT      | Primary Key         |
+| nama_barang          | STRING     | Nama barang        |
+| warna         | STRING     |  Warna dominan         |
+| ciri_khusus      | TEXT     | Deskripsi/ciri unik |
+| foto         | STRING     | Path gambar (opsional)         |
+| type          | ENUM        | 'hilang', 'ditemukan'                |
 | timestamps    | TIMESTAMP   | created_at, updated_at |
 
 ### Tabel `reports`
@@ -56,13 +75,10 @@
 |---------------|-------------|--------------------------------|
 | id            | BIGINT      | Primary Key                    |
 | user_id       | BIGINT      | FK ke `users.id`               |
-| type          | ENUM        | 'hilang', 'ditemukan'                |
-| item_name     | STRING     | Nama barang                    |
-| description   | TEXT        | Deskripsi detail               |
-| location      | STRING     | Lokasi ditemukan/hilang        |
-| date          | DATE        | Tanggal kejadian               |
-| image         | STRING     | Path gambar (opsional)         |
-| status        | ENUM        | 'diproses', 'diterima', 'ditolak' |
+| item_id       | BIGINT      | FK ke `items.id`               |
+| lokasi      | STRING     | Lokasi ditemukan/hilang        |
+| tanggal          | DATE        | Tanggal kejadian               |
+| status        | ENUM        | 'pending', 'disetujui', 'ditolak' |
 | timestamps    | TIMESTAMP   | created_at, updated_at         |
 
 ### Tabel `claims`
@@ -71,16 +87,26 @@
 | id            | BIGINT      | Primary Key                        |
 | user_id       | BIGINT      | FK ke `users.id`                   |
 | report_id     | BIGINT      | FK ke `reports.id`                 |
-| justification | TEXT        | Alasan/keterangan mengklaim       |
-| status        | ENUM        | 'diproses', 'diterima', 'ditolak' |
+| deskripsi_klaim | TEXT        | Alasan/keterangan mengklaim / bukti      |
+| status_verifikasi        | ENUM        | 'pending', 'disetujui', 'ditolak' |
 | timestamps    | TIMESTAMP   | created_at, updated_at             |
 
+### Tabel `user_items`
+| Field         | Tipe Data   | Keterangan                         |
+|---------------|-------------|------------------------------------|
+| id            | BIGINT      | Primary Key                        |
+| user_id       | BIGINT      | FK ke `users.id`                   |
+| item_id     | BIGINT      | FK ke `items.id`                 |
+| timestamps    | TIMESTAMP   | created_at, updated_at             |
 ---
 
 ## 🔗 Jenis Relasi dan Tabel yang Berelasi
 
+- `users` ↔ `profiles`: One to one (Satu pengguna memiliki satu profil)  
 - `users` ↔ `reports`: One to Many (Satu pengguna dapat melaporkan banyak barang hilang atau ditemukan)  
-- `reports` ↔ `claims`: One to Many (Satu laporan barang ditemukan dapat diklaim oleh beberapa pengguna)  
 - `users` ↔ `claims`: One to Many (Satu pengguna dapat mengklaim lebih dari satu barang ditemukan)
+- `items` ↔ `reports`: One to Many (Satu barang dapat dilaporkan beberapa kali)  
+- `reports` ↔ `claims`: One to Many (Satu laporan barang ditemukan dapat diklaim oleh beberapa pengguna)  
+- `users` ↔ `items`: Many to Many ()
 
 --- 
