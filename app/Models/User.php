@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role'
     ];
 
     /**
@@ -45,4 +46,39 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // public function profile(){
+    //     return $this->hasOne(Profile::class,'user_id','id');
+    // }
+
+    public function profile()
+    {
+        return $this->hasOne(Profile::class);
+    }
+    public function reports()
+    {
+        return $this->hasMany(Report::class);
+    }
+
+    public function claims()
+    {
+        return $this->hasMany(Claim::class);
+    }
+
+    public function items()
+    {
+        return $this->belongsToMany(Item::class, 'user_items')->withTimestamps();
+    }
+
+    // public function report(){
+    //     return $this->hasMany(Report::class,'user_id','id');
+    // }
+    // public function claim(){
+    //     return $this->hasMany(Claim::class,'user_id','id');
+    // }
+    // public function item(){
+    //     return $this->belongsToMany(Item::class, 'user_items')->withTimestamps();
+
+    // }
+
 }

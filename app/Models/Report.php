@@ -9,26 +9,36 @@ class Report extends Model
 {
     use HasFactory;
 
-    // Menentukan nama tabel
-    protected $table = 'reports';
-
-    // Menentukan kolom yang dapat diisi
     protected $fillable = [
         'user_id',
-        'type',
-        'item_name',
-        'description',
-        'location',
-        'date',
-        'image',
+        'item_id',
+        'lokasi',
+        'tanggal',
         'status',
     ];
 
-    // Relasi ke User (setiap laporan milik satu user)
+    /**
+     * Relasi ke model User.
+     */
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    // Bisa ditambahkan relasi lain jika ada relasi lain ke tabel lain
+    /**
+     * Relasi ke model Item.
+     */
+    public function item()
+    {
+        return $this->belongsTo(Item::class);
+    }
+
+    /**
+     * Relasi ke model Claim (jika satu report bisa punya satu klaim).
+     * Jika satu report bisa punya banyak klaim, ubah menjadi hasMany.
+     */
+    public function claim()
+    {
+        return $this->hasOne(Claim::class);
+    }
 }
