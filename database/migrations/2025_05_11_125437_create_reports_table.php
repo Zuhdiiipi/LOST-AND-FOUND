@@ -13,14 +13,11 @@ return new class extends Migration
     {
         Schema::create('reports', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade'); 
-            $table->enum('type', ['hilang', 'ditemukan']); 
-            $table->string('item_name'); 
-            $table->text('description'); 
-            $table->string('location'); 
-            $table->date('date'); 
-            $table->string('image')->nullable(); 
-            $table->enum('status', ['diproses', 'diterima', 'ditolak'])->default('diproses');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('item_id')->constrained('items')->onDelete('cascade');
+            $table->string('lokasi');
+            $table->date('tanggal');
+            $table->enum('status',['pending','disetujui','ditolak'])->default('pending');
             $table->timestamps();
         });
     }

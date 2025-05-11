@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('claims', function (Blueprint $table) {
+        Schema::create('items', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade'); 
-            $table->foreignId('report_id')->constrained('reports')->onDelete('cascade'); 
-            $table->text('justification'); 
-            $table->enum('status', ['diproses', 'diterima', 'ditolak'])->default('diproses');
+            $table->string('nama_barang');
+            $table->string('warna');
+            $table->text('ciri_khusus');
+            $table->string('foto')->nullable();
+            $table->enum('type',['hilang','ditemukan']);
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('claims');
+        Schema::dropIfExists('items');
     }
 };
