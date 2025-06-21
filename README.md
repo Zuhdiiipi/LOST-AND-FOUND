@@ -97,6 +97,7 @@
 | id            | BIGINT      | Primary Key                        |
 | user_id       | BIGINT      | FK ke `users.id`                   |
 | item_id     | BIGINT      | FK ke `items.id`                 |
+| role     | ENUM      | 'pelapor','penemu','pemilik'                 |
 | timestamps    | TIMESTAMP   | created_at, updated_at             |
 ---
 

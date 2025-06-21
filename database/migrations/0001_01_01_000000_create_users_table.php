@@ -17,10 +17,10 @@ return new class extends Migration
             $table->string('email')->unique(); 
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password'); 
-            // $table->string('phone_number'); 
             $table->enum('role', ['user', 'staff', 'admin'])->default('user'); 
             $table->rememberToken();
-            $table->timestamps(); 
+            $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
@@ -39,9 +39,6 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('users');

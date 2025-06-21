@@ -6,9 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
+
     public function up(): void
     {
         Schema::create('reports', function (Blueprint $table) {
@@ -19,12 +17,10 @@ return new class extends Migration
             $table->date('tanggal');
             $table->enum('status',['pending','disetujui','ditolak'])->default('pending');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('reports');

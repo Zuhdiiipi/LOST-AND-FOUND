@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Item extends Model
 {
-    use HasFactory;
+    use HasFactory , SoftDeletes;
 
     protected $fillable = [
         'nama_barang',
@@ -16,12 +17,15 @@ class Item extends Model
         'foto',
         'type',
     ];
-
-    /**
-     * Relasi ke model Report (satu item bisa dimiliki oleh banyak report).
-     */
     public function reports()
     {
         return $this->hasMany(Report::class);
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class)
+                    ->withPivot('role')
+                    ->withTimestamps();
     }
 }

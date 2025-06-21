@@ -4,13 +4,14 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable , SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -47,10 +48,6 @@ class User extends Authenticatable
         ];
     }
 
-    // public function profile(){
-    //     return $this->hasOne(Profile::class,'user_id','id');
-    // }
-
     public function profile()
     {
         return $this->hasOne(Profile::class);
@@ -67,18 +64,9 @@ class User extends Authenticatable
 
     public function items()
     {
-        return $this->belongsToMany(Item::class, 'user_items')->withTimestamps();
+        return $this->belongsToMany(Item::class, 'user_items')
+            ->withPivot('role')
+            ->withTimestamps();
     }
-
-    // public function report(){
-    //     return $this->hasMany(Report::class,'user_id','id');
-    // }
-    // public function claim(){
-    //     return $this->hasMany(Claim::class,'user_id','id');
-    // }
-    // public function item(){
-    //     return $this->belongsToMany(Item::class, 'user_items')->withTimestamps();
-
-    // }
 
 }

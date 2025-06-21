@@ -6,9 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
+
     public function up(): void
     {
         Schema::create('claims', function (Blueprint $table) {
@@ -16,14 +14,13 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('report_id')->constrained('reports')->onDelete('cascade');
             $table->text('deskripsi_klaim');
-            $table->enum('status',['pending','disetujui','ditolak']);
+            $table->enum('status',['pending','disetujui','ditolak'])->default('pending');
             $table->timestamps();
+            $table->softDeletes();
         });
+        // $table->unique(['user_id', 'report_id']); // Mencegah klaim ganda
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('claims');
